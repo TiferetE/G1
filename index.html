@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תרגול סוכרת הריון - מתחילים</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8e24aa;
+            --secondary-color: #e1bee7;
+            --background-color: #f3e5f5;
+            --text-color: #333;
+            --selected-color: #7b1fa2;
+            --correct-color: #4caf50;
+            --incorrect-color: #f44336;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--secondary-color), #f3e5f5);
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            max-width: 80px;
+            max-height: 80px;
+            margin-right: 10px; /* הקטנת הרווח בין הלוגו לכותרת */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            color: var(--primary-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .gdm-image {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        #quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .question {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: var(--primary-color);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            margin: 8px 0;
+            padding: 12px;
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            color: var(--text-color);
+            text-align: right;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button.selected {
+            background-color: var(--selected-color);
+            color: white;
+            font-weight: bold;
+        }
+
+        .option-letter {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .button-container {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #next-button, #submit-button, #retry-button {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 120px;
+            min-height: 44px;
+            text-align: center;
+        }
+
+        #next-button:hover, #submit-button:hover, #retry-button:hover {
+            background-color: var(--selected-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e8eaf6;
+            border-radius: 5px;
+            font-style: italic;
+            color: #5c6bc0;
+        }
+
+        .review-question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-question li {
+            list-style-type: none;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .review-question .correct {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--correct-color);
+            border: 1px solid var(--correct-color);
+        }
+
+        .review-question .incorrect {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--incorrect-color);
+            border: 1px solid var(--incorrect-color);
+        }
+
+        .option-letter {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>תרגול סוכרת הריון - מתחילים</h1>
+            <img src="לוגו מעודכן.png" alt="לוגו" class="logo">
+        </div>
+    </header>
+    <div class="container">
+        <img src="GDM.png" alt="סוכרת הריון" class="gdm-image">
+        <div id="quiz-container">
+            <div id="question-container"></div>
+            <div class="button-container">
+                <button id="next-button" style="display: none;">השאלה הבאה</button>
+                <button id="submit-button" style="display: none;">הגש מבחן</button>
+                <button id="retry-button" style="display: none;">נסה שוב</button>
+            </div>
+            <div id="result"></div>
+        </div>
+        <div id="review-container"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. באיזה שבוע בתקופת ההיריון מבוצעת בד\"כ בדיקת OGTT?",
+                options: ["תחילת ההיריון", "שבוע 26", "שבוע 12", "שבוע 30"],
+                correct: 1,
+                explanation: "בדיקת OGTT מבוצעת בד\"כ בין שבוע 24-28"
+            },
+            {
+                question: "2. אישה שחוותה סוכרת הריונית, אמורה לבצע בדיקות סקר לגילוי סוכרת במהלך חייה, מהי התדירות הנדרשת לבדיקת סקר זו?",
+                options: ["כל 1-3 שנים", "כל 6 חודשים", "אחרי 6 שבועות מהלידה ולאחר מכן כל 5 שנים", "כל 10 חודשים"],
+                correct: 0,
+                explanation: "נשים שחוו סוכרת הריונית נמצאות בסיכון מוגבר לפתח סוכרת מסוג 2, לכן מומלץ לבצע בדיקות סקר כל 1-3 שנים"
+            },
+            {
+                question: "3.	מהו יעד HBA1C הרצוי עבור אישה בהריון עם סוכרת הריונית?",
+                options: ["מתחת ל5.8%", "בין 7.5%-8%", "מתחת ל6.5%", "מתחת ל7.5%"],
+                correct: 2,
+                explanation: "יעד ה HBA1C  הרצוי בהריון הינו מתחת ל6%-6.5% בתנאי שניתן להשיגו ללא היפוגליקמיות משמעותיות. במידה ולא מתאפשר ניתן להסתפק ביעד של פחות מ7% כדי למנוע היפוגליקמיות. בשליש השני והשלישי להריון מומלץ להגיע ליעד של פחות מ6% שנקשר עם תוצאי הריון טובים יותר במידה וניתן להשיג אותו ללא אירועי היפוגליקמיה משמעותיים. "
+            },         
+            {
+                question: "4.	יולדת אשר סבלה מסוכרת הריון במהלך הריונה מועמדת לשחרור מבית החולים מה ההדרכה הנכונה עבורה? ",
+                options: ["יש לבצע העמסת 100 גרם סוכר חודשיים לאחר הלידה", 	"יש לבצע בדיקת HBA1C שלושה שבועות לאחר הלידה", 	"יש לבצע העמסת 75 גרם גלוקוז שישה שבועות לאחר הלידה", "יש לבצע העמסת 50 גרם גלוקוז חודשיים לאחר הלידה"],
+                correct: 2,
+                explanation: "הבדיקה המומלצת לביצוע לאחר הריון עם GDM לאיתור סוכרת מסוג 2 הינה ביצוע העמסת סוכר 75 גרם גלוקוז בין 6-12 שבועות לאחר הלידה. במידה ויש קושי לבצע העמסת סוכר ניתן לקחת ביחד סוכר בצום ו HBA1C  שלושה חודשים לאחר הלידה"
+            },
+            {
+                question: "5. מטופלת ביצעה בדיקת OGTT בשבוע 24 להריון בתוצאות הבדיקה: בצום 91, אחרי שעה 181 אחרי שעתיים 145 אחרי 3 שעות 139 מה נכון?",
+                options: ["בשל תוצאה לא תקינה שעה לאחר העמסה מדובר בסוכרת הריון", "בשל בדיקה לא תקינה 3 שעות לאחר העמסת סוכר מדובר בסוכרת הריון", "בשל 2 תוצאות לא תקינות שעה ושעתיים לאחר העמסת סוכר מדובר בסוכרת הריון", "בשל כך שרק תוצאה אחת שעה לאחר העמסת הסוכר אינה תקינה לא ניתן לקבוע עדין סוכרת הריון"],
+                correct: 3,
+                explanation: "בשביל לאבחן סוכרת הריון באמצעות בדיקת OGTT יש צורך ב 2 בדיקות פתולוגיות. ערכים תקינים בבדיקת OGTT בצום עד 95, לאחר שעה עד 180, לאחר שעתיים עד 155 לאחר 3 שעות עד 140"
+            }, 
+            {
+                question: "6. מה נכון לגבי העליה הרצויה במשקל במהלך ההיריון?",
+                options: ["במידה ו BMI  בכניסה להריון היה תקין, עליה של 11-16 קילו גרם הינה עליה תקינה", "במידה ו BMI בכניסה להריון היה מעל 30, עליה של 8 עד 12 קילו גרם הינה עליה תקינה6", "בכל ערך של BMI בכניסה להריון יש להקפיד על עליה של לפחות 5 קילו גרם במהלך ההיריון", "אף תשובה אינה נכונה"],
+                correct: 0,
+                explanation: "העליה הרצויה במשקל בהריון הינה בין 11-16 קילו גרם כאשר המשקל של האישה בתחילת הריון הינו תקין. במידה והאישה סובלת מעודף משקל העליה המומלצת במשקל בהריון הינה בין 7-11.5 קילו גרם, במידה והאישה סובלת מהשמנה העליה המומלצת במשקל הינה בין 5-9 קילו גרם."
+            }, 
+            {
+                question: "7. מה אינו נכון לגבי שכיחות סוכרת בהריון?",
+                options: ["שכיחות סוכרת הריונית הינה כ6-7% מכלל ההריונות והיא מהווה כ 90% ממקרי הסוכרת בהריון", "שכיחותה יורדת בשנים האחרונות בעקבות המודעות הגוברת", "שכיחות סוכרת הריונית נמצאת ביחס ישר לשכיחות סוכרת מסוג 2 באוכלוסייה", "סוכרת טרום הריונית קיימת ב0.4-2% מכלל ההריונות"],
+                correct: 1,
+                explanation: "שכיחות סוכרת הריון הולכת ועולה ברחבי העולם במקביל למגיפת ההשמנה בעולם"
+            },
+            {
+                question: "8. מהם ערכי הגלוקוז המומלצים לנשים עם GDM?",
+                options: ["בצום מתחת ל95 שעתיים לאחר האוכל מתחת ל120", "בצום מתחת ל100 שעתיים לאחר האוכל מתחת ל120", "בצום מתחת ל90 שעתיים לאחר האוכל מתחת ל140", "בצום מתחת ל80 שעתיים לאחר האוכל מתחת ל110"],
+                correct: 0,
+                explanation: "ערכי הגלוקוז המומלצים לאישה עם סוכרת הריון הינם: בצום עד 90, שעה לאחר הארוחה פחות מ140 ושעתיים לאחר הארוחה פחות מ120"
+            },
+            {
+                question: "9. מה מהבאים נכון לגבי סיבוכים שכיחים בנשים עם סוכרת בהריון? ",
+                options: ["מיעוט מי שפיר, ניתוח קיסרי ותמותה פרינטלית ותמותה נאונטלית", "ריבוי מי שפיר, ירידה בלחץ דם והיפרליפדימיה", "מיעוט מי שפיר ניתוח קיסרי, פרע כתפיים ורעלת הריון", "ריבוי מי שפיר, תמותה פרינטלית, תמותה נאונטלית ולידה מוקדמת"],
+                correct: 3,
+                explanation: "סוכרת הריון עלולה לגרום לסיבוכים רבים ביניהם: ריבוי מי שפיר, תמותה נאונטלית, לידה מקודמת, לידה מכשירנית, ניתוח קיסרי ועוד"
+            },
+            {
+                question: "10. לידה המתרחשת דרך תעלת הלידה מהווה סיכון בנשים סוכרתיות במצב של:",
+                options: ["LGA (large for gestational age)/ מאקרוזומיה", "גסטרופרזיס", "IUGR/ עיכוב גדילה תוך רחמי", "רטינופטיה שגשוגית "],
+                correct: 0,
+                explanation: "רמות גלוקוז גבוהות בדם האם במהלך ההיריון משפיעות על התפתחות העובר. עודף הסוכר מגרה את הלבלב העוברי לייצר אינסולין מוגבר. מה שמוביל לגדילה מואצת ולא מאוזנת של העובר. תהליך זה מתבטא בהצטברות יתרה של רקמות שומן ובגדילה מוגזמת של היקף הכתפיים ביחס להיקף הראש. כתוצאה מכך, אחד הסיבוכים השכיחים בהיריון סוכרתי הוא עובר גדול לגיל ההיריון (LGA) או מאקרוזומיה (עובר גדול במיוחד)."
+            },
+            {
+                question: "11.	אישה עם סוכרת הריונית חשופה לכל הסיכונים הבאים פרט ל:",
+                options: ["ריבוי מי שפיר", "אנמיה", "יתר לחץ דם", "לידה מכשירנית"],
+                correct: 1,
+                explanation: "סוכרת הריון מעלה את הסיכון לסיבוכים רבים ביניהם: ריבוי מי שפיר, יתר לחץ דם ולידה מכשירנית."
+            },
+            {
+                question: "12. מהם יעדי הסוכר המומלצים לאישה עם סוכרת הריונית?",
+                options: ["סוכר בצום עד 90, שעה לאחר תחילת הארוחה עד 130 ושעתיים לאחר תחילת הארוחה עד 140", "סוכר בצום עד 95, שעה לאחר תחילת הארוחה עד 140, שעתיים לאחר תחילת הארוחה עד 120", "סוכר בצום עד 100, שעה לאחר תחילת הארוחה עד 140, שעתיים לאחר תחילת הארוחה עד 130", "אף תשובה אינה נכונה"],
+                correct: 1,
+                explanation: "ערכי הגלוקוז המומלצים לאישה עם סוכרת הריון הינם: בצום עד 90, שעה לאחר הארוחה פחות מ140 ושעתיים לאחר הארוחה פחות מ120"
+            },
+            {
+                question: "13. מה נכון לגבי ההמלצות לתזונה ופעילות גופנית לאישה עם סוכרת הריון?",
+                options: ["נמליץ על פעילות גופנית שאין בה סיכון רב לנפילה כמו הליכה למשך 30 דקות במרבית ימות השבוע", "כ75% מהנשים עם סוכרת הריונית ניתנות לאיזון עם דיאטה בלבד", "חומצה פולית אינה מומלצת לנשים עם סוכרת הריון", "תשובות א+ב נכונות"],
+                correct: 3,
+                explanation: "לפעילות גופנית בהריון יתרונות רבים ולכן בהיעדר הורית נגד אנו נמליץ על פעילות גופנית שאין בה סיכון רב לנפילה או חבלה בטנית. כ75% מהנשים עם סוכרת הריונית ניתנות לאיזון עם דיאטה בלבד. "
+            },
+            {
+                question: "14. מה נכון לגבי בדיקת GCT?",
+                options: ["מבוצעת בין שבוע 24-28 להריון", "אינה דורשת צום", "הסף הנדרש לביצוע בדיקה המשך אבחנתית (OGTT) הוא בין 130-140", "כל התשובות נכונות"],
+                correct: 3,
+                explanation: "בדיקת סבילות גלוקוז (GCT - Glucose Challenge Test) היא הליך סקירה המבוצע באופן שגרתי לכל הנשים ההרות, בדרך כלל בין השבועות 24 ל-28 להריון. הבדיקה כוללת צריכה של 50 גרם גלוקוז ואינה מצריכה צום מוקדם. שעה לאחר צריכת הגלוקוז, נלקחת דגימת דם לבדיקה. ערך הסף לתוצאה תקינה נע בין 130 ל-140, כאשר יש חילוקי דעות בין מומחים לגבי הערך המדויק. נשים שתוצאת הבדיקה שלהן חורגת מערך הסף, מופנות לבדיקה מקיפה יותר - מבחן העמסת סוכר (OGTT - Oral Glucose Tolerance Test), הכולל צריכה של 100 גרם גלוקוז."
+            },
+            {
+                question: "15. מה נכון לגבי שיקולי היילוד אצל נשים עם סוכרת?",
+                options: ["במידה והסוכרת מאוזנת וההיריון תקין נמליץ על ביצוע השראת לידה בין שבוע 38-39 ", "במצבים של איזון ירוד, מחלה וסקולרית ועוד ניתן לשקול יילוד בין שבועות 34-37", "סוכרת טרום הריונית אינה מהווה התוויה לניתוח קיסרי אך אם הערכת משקל הינה מעל 3.500 קילו גרם יש להציע ניתוח קיסרי אלקטיבי על מנת להפחית את הסיכון לפרע כתפיים", "אף תשובה אינה נכונה"],
+                correct: 1,
+                explanation: "כיום אין המלצה ליילד אישה עם סוכרת מאוזנת והריון תקין לפני שבוע 39+0. במצבים של איזון ירוד, מחלה וסקולרית ועוד ניתן לשקול יילוד בין שבועות 34-37. סוכרת טרום הריונית אינה מהווה התוויה לניתוח קיסרי. במידה והערכת המשקל הינה מעל 4.5 קילו גרם יש להציע ניתוח קיסרי אלקטיבי על מנת להפחית את הסיכון לפרע כתפיים. "
+            },
+            {
+                question: "16. מהם רמות הסוכר המומלצות בזמן הלידה לאישה עם סוכרת הריון?",
+                options: ["100-140", "70-110", "120-150", "90-120"],
+                correct: 1,
+                explanation: "סביב הלידה יש להימנע מהיפרגליקמיה בכדי להפחית את הסיכון לחמצת קטוטית ולהיפוגליקמיה בילוד. רמות הגלוקוז המומלצות בעת הלידה הם 70-110"
+            }, 
+            {
+                question: "17. מה מומלץ לאישה לאחר סוכרת הריון?",
+                options: ["ביצוע העמסת סוכר 75 גרם גלוקוז 6-12 שבועות לאחר הלידה ", "נשים שבדיקת העמסת סוכר 75 גרם יוצאת שלילית צריכות לבצע הערכה חוזרת של רמות הגלוקוז בדם כל 3 שנים ומבחן העמסת סוכר של 100 גרם בתחילת ההיריון הבא", "הנקה מאוד מומלצת בקרב נשים עם סוכרת הריונית ", "כל התשובות נכונות"],
+                correct: 3,
+                explanation: "מעקב מומלץ לאחר הריון עם סוכרת הריון כולל ביצוע העמסת סוכר 75 גרם גלוקוז 6-12 שבועות לאחר הלידה, נשים שבדיקת העמסת סוכר 75 גרם יוצאת שלילית צריכות לבצע הערכה חוזרת של רמות הגלוקוז בדם כל 3 שנים ומבחן העמסת סוכר של 100 גרם בתחילת ההיריון הבא. הנקה מאוד מומלצת כדי להפחית סיכון של האדם לפתח סוכרת מסוג 2 בעתיד. "
+            },
+            {
+                question: "18. באיזה שלב של ההיריון התנגודת לאינסולין הינה הגבוהה ביותר?",
+                options: ["שליש הראשון להריון", "שליש השני להריון", "שליש השלישי להריון", "לאחר הלידה"],
+                correct: 2,
+                explanation: "תצרוכת האינסולין בשליש הראשון דומה ואף עשויה לרדת בהשוואה לתקופה הטרום הריונית. משבוע 15 עד 35 ישנה עלייה מתמדת בתצרוכת האינסולין ולאחר שבוע 35 נצפית לעיתים ירידה קלה בתצרוכת. "
+            },
+            {
+                question: "19. מה אינו נחשב לגורם סיכון להתפתחות סוכרת הריונית?",
+                options: ["גיל מעל 25", "BMI מעל 23", "לידת עובר מעל 4 קילו גרם", "IUFD בעבר"],
+                correct: 1,
+                explanation: "בין גורמי הסיכון לפתח סוכרת הריונית נכללים: גיל (ככל שהגיל עולה הסיכון עולה), לידת עובר גדול בעבר, IUFD  בעבר וכן גם BMI גבוה אצל האם (BMI-23  הינו BMI תקין)"
+            },
+            {
+                question: "20. איזה הורמון אינו מעלה את התנגודת לאינסולין במהלך ההיריון?",
+                options: ["הפרשת קורטיזול מוגברת", "הפרשת הורמוני גדילה מהשלייה", "עלייה ברמות פרוגסטרון", "הפרשה מוגברת של GLP1"],
+                correct: 3,
+                explanation: "סביב שבוע 16 להריון התנגודת לאינסולין מתחילה לעלות. שינויים אלו נובעים מהפרשה של הורמונים שמעלים תנגודת לאינסולין כגון קורטיזול, פרוגסטרון, הורמון גדילה, פרולקטין."
+            },
+            {
+                question: "21. מהו הסיבוך האימהי השכיח ביותר בסוכרת הריון לא מאוזנת?",
+                options: ["פרה-אקלמפסיה", "דיכאון אחרי לידה", "פגיעה בכבד", "רטינופתיה"],
+                correct: 0,
+                explanation: "פרה אקלמפסיה הינו סיבוך שכיח בסוכרת הריון לא מאוזנת. בנשים עם סוכרת טרום הריונית מומלץ על טיפול באספירין במינון 100-150 מליגרם החל משבוע 12 להריון כדי להפחית את הסיכון לפרהאקלמפסיה"
+            },
+            {
+                question: "22. מהי השפעת סוכרת הריון על תנגודת לאינסולין לאחר הלידה?",
+                options: ["עלייה מיידית בתנגודת לאינסולין", "ירידה בתנגודת לאינסולין", "תנגודת לאינסולין אינה משתנה", "תנגודת לאינסולין תלויה בגורמים נוספים ולכן לא ניתן לדעת"],
+                correct: 1,
+                explanation: "לאחר הלידה יש ירידה חדה בתנגודת לאינסולין, יש צורך להתאים טיפול תרופתי במידה וקיים."
+            },
+            {
+                question: "23. מהו הסיבוך הנפוץ ביותר לעובר לאחר הלידה אצל נשים עם סוכרת הריון?",
+                options: ["היפרגליקמיה לאחר הלידה", "פגיעה בתפקוד הריאתי", "אנמיה ", "היפוגליקמיה לאחר הלידה"],
+                correct: 3,
+                explanation: "עובר שנחשף לרמות גלוקוז גבוהות בדם האם במהלך ההיריון, מגיב בהגברת ייצור האינסולין. לאחר הלידה, כאשר אספקת הסוכר מהאם נפסקת באופן פתאומי, העודף היחסי של אינסולין בגוף היילוד נותר על כנו. מצב זה מעמיד את היילוד בסיכון מוגבר להיפוגליקמיה, שכן כמות האינסולין הגבוהה ממשיכה להוריד את רמות הסוכר בדמו, ללא המקור החיצוני של הסוכר אליו הורגל ברחם."
+            },
+            {
+                question: "24. מהי המלצת ה-ADA לגבי הנקה לנשים עם סוכרת הריון לאחר הלידה?",
+                options: ["אינה מומלצת", "מומלצת רק לנשים עם רמות גלוקוז יציבות", "מומלצת ככל הניתן", "תלויה בצריכת אינסולין"],
+                correct: 2,
+                explanation: "הנקה מאוד מומלצת כדי להפחית סיכון של האדם לפתח סוכרת מסוג 2 בעתיד."
+            },
+            {
+                question: "25. מהי ההמלצה התזונתית העיקרית לנשים עם סוכרת הריון?",
+                options: ["להפחית פחמימות לחלוטין", "לשמור על פחמימות מורכבות ומפוזרות לאורך היום", "להימנע מכל שומנים", "לאכול ארוחה גדולה אחת ביום"],
+                correct: 1,
+                explanation: "ההנחיות התזונתיות המקובלות לנשים הרות עם סוכרת היריון ממליצות על צריכה יומית של כ-175 גרם פחמימות, תוך דגש על מקורות פחמימה איכותיים. חשוב להיצמד להמלצה הדיאטנית המותאמות באופן אישי, שכן החלפת הפחמימות בשומנים עלולה לגרום להגברה של הליפוליזה, לעליה ברמת חומצות שומן חופשיות והחמרה של התנגודת לאינסולין האימהית."
+            },
+            // ... (הוסף את כל 30 השאלות כאן) ...
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+
+        const questionContainer = document.getElementById('question-container');
+        const nextButton = document.getElementById('next-button');
+        const submitButton = document.getElementById('submit-button');
+        const resultContainer = document.getElementById('result');
+        const reviewContainer = document.getElementById('review-container');
+        const retryButton = document.getElementById('retry-button');
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            let optionsHTML = '';
+            const letters = ['א', 'ב', 'ג', 'ד'];
+            for (let i = 0; i < question.options.length; i++) {
+                optionsHTML += `<button onclick="selectAnswer(${i})" id="o${i}"><span class="option-letter">${letters[i]}</span> ${question.options[i]}</button>`;
+            }
+            questionContainer.innerHTML = `
+                <div class="question">${question.question}</div>
+                <div class="options">${optionsHTML}</div>
+            `;
+            document.querySelector('.button-container').style.display = 'flex';
+            nextButton.style.display = 'none';
+            submitButton.style.display = 'none';
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            const buttons = document.querySelectorAll('[id^="o"]');
+            buttons.forEach(button => button.classList.remove('selected'));
+            document.getElementById(`o${optionIndex}`).classList.add('selected');
+            if (currentQuestion === questions.length - 1) {
+                nextButton.style.display = 'none';
+                submitButton.style.display = 'block';
+            } else {
+                nextButton.style.display = 'block';
+                submitButton.style.display = 'none';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                questionContainer.innerHTML = '';
+                nextButton.style.display = 'none';
+                submitButton.style.display = 'block';
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i] === questions[i].correct) {
+                    score++;
+                }
+            }
+            const percentage = (score / questions.length) * 100;
+            resultContainer.innerHTML = `הציון שלך: ${percentage.toFixed(2)}%`;
+            showReview();
+            submitButton.style.display = 'none';
+            retryButton.style.display = 'block';
+        }
+
+        function showReview() {
+            let reviewHTML = '';
+            const letters = ['א', 'ב', 'ג', 'ד'];
+            for (let i = 0; i < questions.length; i++) {
+                const question = questions[i];
+                reviewHTML += `
+                    <div class="review-question">
+                        <p><strong>${question.question}</strong></p>
+                        <ul>
+                            ${question.options.map((option, index) => `
+                                <li class="${index === question.correct ? 'correct' : (index === userAnswers[i] && index !== question.correct ? 'incorrect' : '')}">
+                                    <span class="option-letter">${letters[index]}</span> ${option}
+                                    ${index === question.correct ? ' ✓' : (index === userAnswers[i] && index !== question.correct ? ' ✗' : '')}
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <div class="explanation"><strong>הסבר:</strong> ${question.explanation}</div>
+                    </div>
+                `;
+            }
+            
+            reviewContainer.innerHTML = reviewHTML;
+        }
+
+        function retryQuiz() {
+            currentQuestion = 0;
+            userAnswers = [];
+            resultContainer.innerHTML = '';
+            reviewContainer.innerHTML = '';
+            document.querySelector('.button-container').style.display = 'flex';
+            retryButton.style.display = 'none';
+            loadQuestion();
+        }
+
+        nextButton.addEventListener('click', nextQuestion);
+        submitButton.addEventListener('click', submitQuiz);
+        retryButton.addEventListener('click', retryQuiz);
+
+        loadQuestion();
+    </script>
+</body>
+</html>
