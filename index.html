@@ -216,11 +216,13 @@
             <div class="button-container">
                 <button id="next-button" style="display: none;">השאלה הבאה</button>
                 <button id="submit-button" style="display: none;">הגש מבחן</button>
-                <button id="retry-button" style="display: none;">נסה שוב</button>
             </div>
             <div id="result"></div>
         </div>
         <div id="review-container"></div>
+        <div class="button-container">
+            <button id="retry-button" style="display: none;">נסה שוב</button>
+        </div>
     </div>
 
     <script>
@@ -305,7 +307,7 @@
             },
             {
                 question: "14. מה נכון לגבי בדיקת GCT?",
-                options: ["מבוצעת בין שבוע 24-28 להריון", "אינה דורשת צום", "הסף הנדרש לביצוע בדיקה המשך אבחנתית (OGTT) הוא בין 130-140", "כל התשובות נכונות"],
+                options: ["מבוצעת בין שבוע 24-28 להריון", "אינה דורשת צום", "הסף הנדרש לביצוע בדיקה משך אבחנתית (OGTT) הוא בין 130-140", "כל התשובות נכונות"],
                 correct: 3,
                 explanation: "בדיקת סבילות גלוקוז (GCT - Glucose Challenge Test) היא הליך סקירה המבוצע באופן שגרתי לכל הנשים ההרות, בדרך כלל בין השבועות 24 ל-28 להריון. הבדיקה כוללת צריכה של 50 גרם גלוקוז ואינה מצריכה צום מוקדם. שעה לאחר צריכת הגלוקוז, נלקחת דגימת דם לבדיקה. ערך הסף לתוצאה תקינה נע בין 130 ל-140, כאשר יש חילוקי דעות בין מומחים לגבי הערך המדויק. נשים שתוצאת הבדיקה שלהן חורגת מערך הסף, מופנות לבדיקה מקיפה יותר - מבחן העמסת סוכר (OGTT - Oral Glucose Tolerance Test), הכולל צריכה של 100 גרם גלוקוז."
             },
@@ -465,6 +467,7 @@
             }
             
             reviewContainer.innerHTML = reviewHTML;
+            retryButton.style.display = 'block';
         }
 
         function retryQuiz() {
@@ -472,7 +475,6 @@
             userAnswers = [];
             resultContainer.innerHTML = '';
             reviewContainer.innerHTML = '';
-            document.querySelector('.button-container').style.display = 'flex';
             retryButton.style.display = 'none';
             loadQuestion();
         }
@@ -483,5 +485,7 @@
 
         loadQuestion();
     </script>
+</body>
+</html>
 </body>
 </html>
